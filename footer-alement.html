@@ -1,0 +1,71 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/dom-repeat.html">
+<link rel="import" href="../polymer/dom-bind.html">
+<dom-module id="footer-alement">
+  <template>
+    <style>
+      
+      :host {
+        box-sizing: border-box;
+      }
+
+      .container {
+        display: flex;
+        background-color: aqua;
+        padding: 10px;
+      }
+
+      .sections {
+        text-align: center;
+      }
+
+      @media screen and (max-width: 320px) {
+        .container {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+
+    </style>
+    <div id="container" class="container">
+      <template is="dom-repeat" items="[[sectionOne]]" as="section" on-dom-change="test">
+        <div class="sections">
+          <img src="[[section.image]]" width="50" height="50">
+          <p>[[section.title]]</p>
+          <p id$="id-[[index]]"></p>
+        </div>
+      </template>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * `footer-alement`
+     * El super footer element
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class FooterAlement extends Polymer.Element {
+      static get is() { return 'footer-alement'; }
+      static get properties() {
+        return {
+          sectionOne: {
+            type: Array,
+            value: []
+          }
+        };
+      }
+
+      test() {
+        for(const index in this.sectionOne){
+          const description = this.sectionOne[index].description;
+          this.$.container.querySelector(`#id-${index}`).innerHTML = description;
+        }
+      }
+    }
+
+    window.customElements.define(FooterAlement.is, FooterAlement);
+  </script>
+</dom-module>
